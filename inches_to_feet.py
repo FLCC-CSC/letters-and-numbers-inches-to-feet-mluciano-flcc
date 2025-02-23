@@ -22,7 +22,7 @@
 def convert():
     input_inches = int(input("Enter the number of inches: "))
     output = (input_inches // 12, input_inches % 12)
-    print("\n" + str(input_inches) + " inches is " + str(output[0]) + " feet, and " + str(output[1]) + " inches")
+    print(str(input_inches) + " inches is " + str(output[0]) + " feet, and " + str(output[1]) + " inches")
 convert()
 ########### END YER CODE ABOVE THIS LINE ###########
 
