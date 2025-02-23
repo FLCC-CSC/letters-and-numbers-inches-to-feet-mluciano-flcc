@@ -1,0 +1,47 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test Case 1 [14]
+      id: test-case-1-14
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test Case 1 [14]
+        setup-command: ''
+        command: python3 inches_to_feet.py
+        input: '14'
+        expected-output: 'Enter the number of inches: 14 inches is 1 feet, and 2 inches'
+        comparison-method: exact
+        timeout: 10
+        max-score: 10
+    - name: Test Case 2 [100]
+      id: test-case-2-100
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test Case 2 [100]
+        setup-command: ''
+        command: python3 inches_to_feet.py
+        input: '100'
+        expected-output: 'Enter the number of inches: 100 inches is 8 feet, and 4
+          inches'
+        comparison-method: contains
+        timeout: 10
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST-CASE-1-14_RESULTS: "${{steps.test-case-1-14.outputs.result}}"
+        TEST-CASE-2-100_RESULTS: "${{steps.test-case-2-100.outputs.result}}"
+      with:
+        runners: test-case-1-14,test-case-2-100
